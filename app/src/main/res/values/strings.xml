@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RoomAndRecyclerView</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="LabelName">Имя пользователя:</string>
+    <string name="name_user">Name user:</string>
+    <string name="second_name_user">Second name user:</string>
+    <string name="age_user">Age user:</string>
+    <string name="edit_user">EDIT USER</string>
+    <string name="add_user">ADD USER</string>
 </resources>

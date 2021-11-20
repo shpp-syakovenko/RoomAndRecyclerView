@@ -1,4 +1,4 @@
-package com.serglife.roomandrecyclerview.presentain
+package com.serglife.roomandrecyclerview.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
