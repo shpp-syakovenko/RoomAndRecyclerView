@@ -1,29 +1,31 @@
 package com.serglife.roomandrecyclerview.presentation.users
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.serglife.roomandrecyclerview.R
 import com.serglife.roomandrecyclerview.databinding.FragmentUsersBinding
 import com.serglife.roomandrecyclerview.presentation.users.adapter.UsersAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class UsersFragment : Fragment() {
+class UsersFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: FragmentUsersBinding
     private lateinit var adapter: UsersAdapter
-    private val viewModel by viewModel<UsersViewModel>()
+    private val vm by viewModel<UsersViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
+        // Add menu
+        setHasOptionsMenu(true)
         return FragmentUsersBinding.inflate(layoutInflater).also { binding = it }.root
     }
 
@@ -37,7 +39,7 @@ class UsersFragment : Fragment() {
         setupSwipeListener(binding.rvUsers)
         setupClickListener()
 
-        viewModel.users.observe(viewLifecycleOwner, { listUsers ->
+        vm.users.observe(viewLifecycleOwner, { listUsers ->
             adapter.submitList(listUsers)
         })
 
@@ -47,16 +49,21 @@ class UsersFragment : Fragment() {
 
     }
 
-    private fun setupClickListener(){
-        adapter.onClickListener = {user ->
-            findNavController().navigate(UsersFragmentDirections.actionUsersFragmentToEditFragment(user))
+    private fun setupClickListener() {
+        adapter.onClickListener = { user ->
+            findNavController().navigate(
+                UsersFragmentDirections.actionUsersFragmentToEditFragment(
+                    user
+                )
+            )
         }
     }
 
-    private fun setupSwipeListener(rv: RecyclerView){
+    private fun setupSwipeListener(rv: RecyclerView) {
         val callback = object : ItemTouchHelper.SimpleCallback(
             0,
-        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -67,7 +74,7 @@ class UsersFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val user = adapter.currentList[viewHolder.adapterPosition]
-                viewModel.deleteUser(user)
+                vm.deleteUser(user)
             }
         }
         val itemTouchHelper = ItemTouchHelper(callback)
@@ -76,6 +83,43 @@ class UsersFragment : Fragment() {
 
     private fun launchAddFragment() {
         findNavController().navigate(UsersFragmentDirections.actionUsersFragmentToAddFragment())
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search?.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_reload) {
+            vm.users.observe(viewLifecycleOwner, { users ->
+                adapter.submitList(users)
+            })
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        searchDatabase(query)
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        searchDatabase(query)
+        return true
+    }
+
+    private fun searchDatabase(query: String?) {
+        query?.let { text ->
+            if(text.isBlank()) return
+            vm.searchDatabase("%$text%").observe(viewLifecycleOwner, {
+                adapter.submitList(it)
+            })
+        }
     }
 
 }

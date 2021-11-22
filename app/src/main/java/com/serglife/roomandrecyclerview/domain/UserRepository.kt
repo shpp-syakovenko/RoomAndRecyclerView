@@ -7,4 +7,5 @@ interface UserRepository {
     fun getUsers(): LiveData<List<User>>
     suspend fun addUser(user: User)
     suspend fun deleteUser(user: User)
+    fun searchDatabase(searchQuery: String): LiveData<List<User>>
 }

@@ -6,6 +6,7 @@ import com.serglife.roomandrecyclerview.data.database.UserDao
 import com.serglife.roomandrecyclerview.data.mapper.MapperUser
 import com.serglife.roomandrecyclerview.domain.UserRepository
 import com.serglife.roomandrecyclerview.domain.entity.User
+import kotlinx.coroutines.flow.Flow
 
 class UserRepositoryImpl(
     private val userDao: UserDao,
@@ -22,5 +23,9 @@ class UserRepositoryImpl(
 
     override suspend fun deleteUser(user: User) {
         userDao.deleteUser(mapper.userToUserDb(user))
+    }
+
+    override fun searchDatabase(searchQuery: String): LiveData<List<User>> {
+        return mapper.listUsersDbToListUsers(userDao.searchDatabase(searchQuery))
     }
 }

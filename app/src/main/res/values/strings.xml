@@ -9,4 +9,5 @@
     <string name="edit_user">EDIT USER</string>
     <string name="add_user">ADD USER</string>
     <string name="delete">delete</string>
+    <string name="search">Search</string>
 </resources>
