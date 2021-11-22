@@ -8,5 +8,6 @@ class User(
     val id: Int,
     val name: String,
     val secondName: String,
-    val age: Int
+    val age: Int,
+    val address: Address = Address("street", 1)
 ):Parcelable

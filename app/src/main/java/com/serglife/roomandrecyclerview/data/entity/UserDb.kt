@@ -1,5 +1,6 @@
 package com.serglife.roomandrecyclerview.data.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -9,5 +10,7 @@ data class UserDb(
     val id: Int,
     val name: String,
     val secondName: String,
-    val age: Int
+    val age: Int,
+    @Embedded
+    val address: AddressDb = AddressDb("street", 1)
 )

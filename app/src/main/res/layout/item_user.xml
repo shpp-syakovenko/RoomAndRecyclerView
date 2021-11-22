@@ -59,6 +59,14 @@
                 app:layout_constraintStart_toEndOf="@+id/tvSecondName"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="34" />
+            <TextView
+                android:id="@+id/tvStreet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@+id/tvAge"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="street" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

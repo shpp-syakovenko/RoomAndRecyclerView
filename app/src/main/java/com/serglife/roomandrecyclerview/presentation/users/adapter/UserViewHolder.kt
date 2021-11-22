@@ -14,6 +14,7 @@ class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         binding.tvName.text = user.name
         binding.tvSecondName.text = user.secondName
         binding.tvAge.text = user.age.toString()
+        binding.tvStreet.text = user.address.street
         binding.root.setOnClickListener {
             onClick?.invoke(user)
         }
