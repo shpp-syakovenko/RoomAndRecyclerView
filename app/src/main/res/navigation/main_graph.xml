@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/usersFragment"
         android:name="com.serglife.roomandrecyclerview.presentation.users.UsersFragment"
-        android:label="UsersFragment" >
+        android:label="Users" >
         <action
             android:id="@+id/action_usersFragment_to_addFragment"
             app:destination="@id/addFragment" />
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/addFragment"
         android:name="com.serglife.roomandrecyclerview.presentation.add.AddFragment"
-        android:label="AddFragment" >
+        android:label="Add user" >
         <action
             android:id="@+id/action_addFragment_to_usersFragment"
             app:destination="@id/usersFragment" />
@@ -27,9 +27,12 @@
     <fragment
         android:id="@+id/editFragment"
         android:name="com.serglife.roomandrecyclerview.presentation.edit.EditFragment"
-        android:label="EditFragment" >
+        android:label="Edit user" >
         <action
             android:id="@+id/action_editFragment_to_usersFragment"
             app:destination="@id/usersFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.serglife.roomandrecyclerview.domain.entity.User" />
     </fragment>
 </navigation>

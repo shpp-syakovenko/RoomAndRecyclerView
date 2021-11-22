@@ -7,7 +7,7 @@ import com.serglife.roomandrecyclerview.domain.usecase.GetUsersUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    factory<AddUserUseCase> { AddUserUseCase(get<UserRepositoryImpl>()) }
-    factory<DeleteUserUseCase> { DeleteUserUseCase(get<UserRepositoryImpl>()) }
-    factory<GetUsersUseCase> { GetUsersUseCase(get<UserRepositoryImpl>()) }
+    factory { AddUserUseCase(get<UserRepositoryImpl>()) }
+    factory { DeleteUserUseCase(get<UserRepositoryImpl>()) }
+    factory { GetUsersUseCase(get<UserRepositoryImpl>()) }
 }

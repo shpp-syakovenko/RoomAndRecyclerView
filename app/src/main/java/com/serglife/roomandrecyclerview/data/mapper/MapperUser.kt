@@ -16,7 +16,7 @@ class MapperUser {
         )
     }
 
-    fun userDbToUser(userDb: UserDb):User{
+    private fun userDbToUser(userDb: UserDb):User{
         return User(
             id = userDb.id,
             name = userDb.name,
@@ -31,8 +31,6 @@ class MapperUser {
                 userDbToUser(user)
             }
         }
-
     }
-
 
 }

@@ -8,4 +8,5 @@
     <string name="age_user">Age user:</string>
     <string name="edit_user">EDIT USER</string>
     <string name="add_user">ADD USER</string>
+    <string name="delete">delete</string>
 </resources>

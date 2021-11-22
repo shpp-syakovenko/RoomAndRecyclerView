@@ -44,6 +44,7 @@
                 android:id="@+id/ageEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/age_user" />
         </com.google.android.material.textfield.TextInputLayout>
 
