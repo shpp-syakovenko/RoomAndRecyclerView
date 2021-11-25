@@ -6,10 +6,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.serglife.roomandrecyclerview.R
 import com.serglife.roomandrecyclerview.databinding.FragmentUsersBinding
 import com.serglife.roomandrecyclerview.presentation.users.adapter.UsersAdapter
+import com.serglife.roomandrecyclerview.utils.AppTouchHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -32,11 +32,12 @@ class UsersFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         adapter = UsersAdapter()
         binding.lifecycleOwner = viewLifecycleOwner
         binding.rvUsers.adapter = adapter
 
-        setupSwipeListener(binding.rvUsers)
+        setupSwipeListener()
         setupClickListener()
 
         vm.users.observe(viewLifecycleOwner, { listUsers ->
@@ -59,26 +60,16 @@ class UsersFragment : Fragment(), SearchView.OnQueryTextListener {
         }
     }
 
-    private fun setupSwipeListener(rv: RecyclerView) {
-        val callback = object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
+    // delete user from adapter
+    private fun setupSwipeListener() {
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val user = adapter.currentList[viewHolder.adapterPosition]
-                vm.deleteUser(user)
-            }
+        val callback = AppTouchHelper { viewHolder ->
+            val user = adapter.currentList[viewHolder.adapterPosition]
+            vm.deleteUser(user)
         }
+
         val itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper.attachToRecyclerView(rv)
+        itemTouchHelper.attachToRecyclerView(binding.rvUsers)
     }
 
     private fun launchAddFragment() {
@@ -115,7 +106,7 @@ class UsersFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun searchDatabase(query: String?) {
         query?.let { text ->
-            if(text.isBlank()) return
+            if (text.isBlank()) return
             vm.searchDatabase("%$text%").observe(viewLifecycleOwner, {
                 adapter.submitList(it)
             })
